@@ -1,0 +1,31 @@
+{
+  "name": "employee-tracker",
+  "version": "1.0.0",
+  "description": "An application using Node.js and SQL to track and manage departments and employees in a hypothetical company.",
+  "main": "index.js",
+  "scripts": {
+    "test": "n/a"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevin-salamon/Employee-Tracker.git"
+  },
+  "keywords": [
+    "mySQL",
+    "node",
+    "sql",
+    "node.js",
+    "javascript",
+    "inquirer"
+  ],
+  "author": "Kevin Salamon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kevin-salamon/Employee-Tracker/issues"
+  },
+  "homepage": "https://github.com/kevin-salamon/Employee-Tracker#readme",
+  "dependencies": {
+    "inquirer": "^7.0.4",
+    "mysql": "^2.18.1"
+  }
+}
