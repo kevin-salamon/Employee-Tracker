@@ -26,11 +26,11 @@ CREATE TABLE departments (
   PRIMARY KEY (id)
 );
 
-INSERT INTO employees (first_name, last_name, role_id) values ('Kevin', 'Salamon', 1);
+INSERT INTO employees (first_name, last_name, role_id, manager_id) values ('Kevin', 'Salamon', 1, 1);
 INSERT INTO roles (id, title, salary, department_id) values (1, 'Engineer', 100000, 1);
 INSERT INTO departments (id, department_name) values (1, 'Software');
 
-INSERT INTO employees (first_name, last_name, role_id) values ('Hope', 'Brandes', 2);
+INSERT INTO employees (first_name, last_name, role_id, manager_id) values ('Hope', 'Brandes', 2, 1);
 INSERT INTO roles (id, title, salary, department_id) values (2, 'Designer', 100000, 1);
 
 INSERT INTO employees (first_name, last_name, role_id) values ('Joe', 'Salamon', 3);
@@ -40,10 +40,3 @@ INSERT INTO departments (id, department_name) values (2, 'Executive');
 SELECT * FROM employees;
 SELECT * FROM roles;
 SELECT * FROM departments;
-
-
---SELECT roles.id, roles.title, roles.salary, employees.id, employees.first_name, employees.last_name, employees.manager_id, 
---FROM employees
---LEFT JOIN roles ON role_id = roles.id
---LEFT JOIN departments ON department_id = departments.id
---ORDER BY employees.id

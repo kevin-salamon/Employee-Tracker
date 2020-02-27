@@ -241,4 +241,28 @@ function viewTables() {
     });
 }
 
-// updateInfo();
+function updateInfo() {
+  inquirer
+    .prompt([
+      {
+        name: "employeeID",
+        type: "input",
+        message: "What is the ID of the employee you would like to update?",
+      },
+      {
+        name: "roleID",
+        type: "input",
+        message: "What is the ID of the role you would like to assign to the employee?",
+      }
+    ])
+    .then(function(answer) {
+      let employee = answer.employeeID;
+      let role = answer.roleID;
+      var query = "UPDATE employees SET role_id = ? WHERE employees.id = ?";
+        connection.query(query, [role, employee], function(err, res) {
+            console.table(res.message);
+            console.log("Role Updated!");
+            runSearch();
+        });
+    });
+}
