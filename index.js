@@ -30,6 +30,7 @@ function runSearch() {
         "Add a Department, Role, or Employee",
         "View Departments, Roles, or Employees",
         "Update Employee Roles or Manager",
+        "Delete an Employee, Department, or Role",
         "Exit"
         ]
     })
@@ -45,6 +46,10 @@ function runSearch() {
 
         case "Update Employee Roles or Manager":
         updateInfo();
+        break;
+
+        case "Delete an Employee, Department, or Role":
+        deleteInfo()
         break;
 
         case "Exit":
@@ -235,7 +240,7 @@ function updateInfo() {
   .prompt({
       name: "action",
       type: "list",
-      message: "What would to update an employee role, or manager?",
+      message: "Do you want to update an employee role, or manager?",
       choices: [
       "Update Role",
       "Update Manager"
@@ -287,6 +292,76 @@ function updateInfo() {
             connection.query(query, [manager, employee], function(err, res) {
                 console.table(res.message);
                 console.log("Manager Updated!");
+                runSearch();
+            });
+        });
+        break;
+    }
+  });
+}
+
+function deleteInfo() {
+  inquirer
+  .prompt({
+      name: "action",
+      type: "list",
+      message: "Do you want to delete an employee, role, or department?",
+      choices: [
+      "Delete Employee",
+      "Delete Role",
+      "Delete Department"
+      ]
+  }).then(function(answer) {
+    switch (answer.action) {
+      case "Delete Employee":
+        inquirer
+        .prompt(
+          {
+            name: "employeeID",
+            type: "input",
+            message: "What is the ID of the employee you would like to delete?",
+          }
+        ).then(function(answer) {
+          var query = "DELETE FROM employees WHERE id = ?";
+            connection.query(query, [answer.employeeID], function(err, res) {
+                console.table(res.message);
+                console.log("Employee Deleted!");
+                runSearch();
+            });
+        });
+        break;
+
+      case "Delete Role":
+        inquirer
+        .prompt(
+          {
+            name: "roleID",
+            type: "input",
+            message: "What is the ID of the role you would like to delete?",
+          }
+        ).then(function(answer) {
+          var query = "DELETE FROM roles WHERE id = ?";
+            connection.query(query, [answer.roleID], function(err, res) {
+                console.table(res.message);
+                console.log("Role Deleted!");
+                runSearch();
+            });
+        });
+        break;
+
+      case "Delete Department":
+        inquirer
+        .prompt(
+          {
+            name: "departmentID",
+            type: "input",
+            message: "What is the ID of the department you would like to delete?",
+          }
+        ).then(function(answer) {
+          var query = "DELETE FROM departments WHERE id = ?";
+            connection.query(query, [answer.departmentID], function(err, res) {
+                console.table(res.message);
+                console.log("Deparment Deleted!");
                 runSearch();
             });
         });
