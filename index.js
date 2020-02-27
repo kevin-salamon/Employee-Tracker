@@ -29,7 +29,7 @@ function runSearch() {
         choices: [
         "Add a Department, Role, or Employee",
         "View Departments, Roles, or Employees",
-        "Update Employee roles",
+        "Update Employee Roles or Manager",
         "Exit"
         ]
     })
@@ -43,7 +43,7 @@ function runSearch() {
         viewTables();
         break;
 
-        case "Update Employee roles":
+        case "Update Employee Roles or Manager":
         updateInfo();
         break;
 
@@ -232,26 +232,65 @@ function viewTables() {
 
 function updateInfo() {
   inquirer
-    .prompt([
-      {
-        name: "employeeID",
-        type: "input",
-        message: "What is the ID of the employee you would like to update?",
-      },
-      {
-        name: "roleID",
-        type: "input",
-        message: "What is the ID of the role you would like to assign to the employee?",
-      }
-    ])
-    .then(function(answer) {
-      let employee = answer.employeeID;
-      let role = answer.roleID;
-      var query = "UPDATE employees SET role_id = ? WHERE employees.id = ?";
-        connection.query(query, [role, employee], function(err, res) {
-            console.table(res.message);
-            console.log("Role Updated!");
-            runSearch();
+  .prompt({
+      name: "action",
+      type: "list",
+      message: "What would to update an employee role, or manager?",
+      choices: [
+      "Update Role",
+      "Update Manager"
+      ]
+  }).then(function(answer) {
+    switch (answer.action) {
+      case "Update Role":
+        inquirer
+        .prompt([
+          {
+            name: "employeeID",
+            type: "input",
+            message: "What is the ID of the employee you would like to update?",
+          },
+          {
+            name: "roleID",
+            type: "input",
+            message: "What is the ID of the role you would like to assign to the employee?",
+          }
+        ]).then(function(answer) {
+          let employee = answer.employeeID;
+          let role = answer.roleID;
+          var query = "UPDATE employees SET role_id = ? WHERE employees.id = ?";
+            connection.query(query, [role, employee], function(err, res) {
+                console.table(res.message);
+                console.log("Role Updated!");
+                runSearch();
+            });
         });
-    });
+        break;
+
+      case "Update Manager":
+        inquirer
+        .prompt([
+          {
+            name: "employeeID",
+            type: "input",
+            message: "What is the ID of the employee you would like to update?",
+          },
+          {
+            name: "managerID",
+            type: "input",
+            message: "What is the ID of the manager you would like to assign to the employee?",
+          }
+        ]).then(function(answer) {
+          let employee = answer.employeeID;
+          let manager = answer.managerID;
+          var query = "UPDATE employees SET manager_id = ? WHERE employees.id = ?";
+            connection.query(query, [manager, employee], function(err, res) {
+                console.table(res.message);
+                console.log("Manager Updated!");
+                runSearch();
+            });
+        });
+        break;
+    }
+  });
 }
