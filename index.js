@@ -118,17 +118,6 @@ function addInfo() {
                       }
                 },
                 {
-                    name: "role_id",
-                    message: "Enter the ID for the new role:",
-                    type: "input",
-                    validate: function(value) {
-                        if (isNaN(value) === false) {
-                          return true;
-                        }
-                        return false;
-                      }
-                },
-                {
                     name: "department_id",
                     message: "What is the department ID for the new role?:",
                     type: "input",
@@ -140,8 +129,8 @@ function addInfo() {
                       }
                 }
             ]).then(function(answer) {
-                var query = "INSERT INTO roles (id, title, salary, department_id) values (?, ?, ?, ?)";
-                connection.query(query, [answer.role_id, answer.title, answer.salary, answer.department_id], function(err, res) {
+                var query = "INSERT INTO roles (title, salary, department_id) values (?, ?, ?)";
+                connection.query(query, [answer.title, answer.salary, answer.department_id], function(err, res) {
                     console.log("New role added!");
                     runSearch();
                 });

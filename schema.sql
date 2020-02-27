@@ -13,7 +13,7 @@ CREATE TABLE employees (
 );
 
 CREATE TABLE roles (
-  id INTEGER(10) NOT NULL,
+  id INTEGER(10) AUTO_INCREMENT NOT NULL,
   title VARCHAR(30) NOT NULL,
   salary DECIMAL(10,2) NOT NULL,
   department_id INTEGER(30) NOT NULL,
@@ -27,14 +27,14 @@ CREATE TABLE departments (
 );
 
 INSERT INTO employees (first_name, last_name, role_id, manager_id) values ('Kevin', 'Salamon', 1, 1);
-INSERT INTO roles (id, title, salary, department_id) values (1, 'Engineer', 100000, 1);
+INSERT INTO roles (title, salary, department_id) values ('Engineer', 100000, 1);
 INSERT INTO departments (department_name) values ('Software');
 
 INSERT INTO employees (first_name, last_name, role_id, manager_id) values ('Hope', 'Brandes', 2, 1);
-INSERT INTO roles (id, title, salary, department_id) values (2, 'Designer', 100000, 1);
+INSERT INTO roles (title, salary, department_id) values ('Designer', 100000, 1);
 
 INSERT INTO employees (first_name, last_name, role_id) values ('Joe', 'Salamon', 3);
-INSERT INTO roles (id, title, salary, department_id) values (3, 'Manager', 200000, 2);
+INSERT INTO roles (title, salary, department_id) values ('Manager', 200000, 2);
 INSERT INTO departments (department_name) values ('Executive');
 
 SELECT * FROM employees;
