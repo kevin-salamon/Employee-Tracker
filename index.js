@@ -28,7 +28,7 @@ function runSearch() {
         message: "What would you like to do?",
         choices: [
         "Add a Department, Role, or Employee",
-        "View a Department, Role, or Employee",
+        "View Departments, Roles, or Employees",
         "Update Employee roles",
         "Exit"
         ]
@@ -39,7 +39,7 @@ function runSearch() {
         addInfo();
         break;
 
-        case "View a Department, Role, or Employee":
+        case "View Departments, Roles, or Employees":
         viewTables();
         break;
 
@@ -58,7 +58,7 @@ function addInfo() {
     inquirer
       .prompt({
           name: "action",
-          type: "rawlist",
+          type: "list",
           message: "What would you like to add?",
           choices: [
           "Add a Department",
@@ -74,12 +74,24 @@ function addInfo() {
                     name: "name",
                     message: "Please input the name of the new department:",
                     type: "input",
+                },
+                {
+                    name: "id",
+                    message: "Enter the ID of the new department:",
+                    type: "input",
+                    validate: function(value) {
+                        if (isNaN(value) === false) {
+                          return true;
+                        }
+                        return false;
+                      }
                 }
             ).then(function(answer) {
-                var query = "INSERT INTO departments (department_name) values (?)";
-                connection.query(query, answer.name, function(err, res) {
+                var query = "INSERT INTO departments (id, department_name) values (?, ?)";
+                connection.query(query, [answer.id, answer.name], function(err, res) {
                     console.log("New department added!");
                     runSearch();
+                    break;
                 });
             });
   
@@ -102,6 +114,17 @@ function addInfo() {
                       }
                 },
                 {
+                    name: "role_id",
+                    message: "Enter the ID for the new role:",
+                    type: "input",
+                    validate: function(value) {
+                        if (isNaN(value) === false) {
+                          return true;
+                        }
+                        return false;
+                      }
+                },
+                {
                     name: "department_id",
                     message: "What is the department ID for the new role?:",
                     type: "input",
@@ -113,10 +136,11 @@ function addInfo() {
                       }
                 }
             ]).then(function(answer) {
-                var query = "INSERT INTO roles (title, salary, department_id) values (?, ?, ?)";
-                connection.query(query, [answer.title, answer.salary, answer.department_id], function(err, res) {
+                var query = "INSERT INTO roles (id, title, salary, department_id) values (?, ?, ?, ?)";
+                connection.query(query, [answer.role_id, answer.title, answer.salary, answer.department_id], function(err, res) {
                     console.log("New role added!");
                     runSearch();
+                    break;
                 });
             });
   
@@ -159,6 +183,7 @@ function addInfo() {
                 connection.query(query, [answer.first_name, answer.last_name, answer.role_id, answer.manager_id], function(err, res) {
                     console.log("New employee added!");
                     runSearch();
+                    break;
                 });
             });
         }
@@ -172,26 +197,45 @@ function viewTables() {
         type: "list",
         message: "What would you like to do?",
         choices: [
-        "View an Employee",
-        "View a Department",
-        "View a Role",
+        "View Employees",
+        "View Departments",
+        "View Roles"
         ]
     })
     .then(function(answer) {
         switch (answer.action) {
-        case "View an Employee":
-        // code here
-
+        case "View Employees":
+            var query = "SELECT employees.id, employees.first_name, employees.last_name, employees.manager_id, roles.title, roles.salary, departments.department_name ";
+            query+= "FROM employees ";
+            query+= "LEFT JOIN roles ON role_id = roles.id ";
+            query+= "LEFT JOIN departments ON department_id = departments.id ";
+            query+= "ORDER BY employees.id";
+            connection.query(query, function(err, res) {
+                console.table(res);
+                runSearch();
+            });
         break;
 
-        case "View a Department":
-        // code here
-
+        case "View Departments":
+          var query = "SELECT departments.id, departments.department_name ";
+          query+= "FROM departments ";
+          query+= "ORDER BY departments.id";
+          connection.query(query, function(err, res) {
+              console.table(res);
+              runSearch();
+          });
         break;
 
-        case "View a Role":
-        //code here
-
+        case "View Roles":
+          var query = "SELECT roles.id, roles.title, roles.salary, departments.department_name ";
+          query+= "FROM roles ";
+          query+= "LEFT JOIN departments ON department_id = departments.id "
+          query+= "ORDER BY roles.id";
+          console.log(query);
+          connection.query(query, function(err, res) {
+              console.table(res);
+              runSearch();
+          });
         break;
         }
     });
