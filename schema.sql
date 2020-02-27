@@ -21,21 +21,21 @@ CREATE TABLE roles (
 );
 
 CREATE TABLE departments (
-  id INTEGER(10) NOT NULL,
+  id INTEGER(10) AUTO_INCREMENT NOT NULL,
   department_name VARCHAR(30) NOT NULL,
   PRIMARY KEY (id)
 );
 
 INSERT INTO employees (first_name, last_name, role_id, manager_id) values ('Kevin', 'Salamon', 1, 1);
 INSERT INTO roles (id, title, salary, department_id) values (1, 'Engineer', 100000, 1);
-INSERT INTO departments (id, department_name) values (1, 'Software');
+INSERT INTO departments (department_name) values ('Software');
 
 INSERT INTO employees (first_name, last_name, role_id, manager_id) values ('Hope', 'Brandes', 2, 1);
 INSERT INTO roles (id, title, salary, department_id) values (2, 'Designer', 100000, 1);
 
 INSERT INTO employees (first_name, last_name, role_id) values ('Joe', 'Salamon', 3);
 INSERT INTO roles (id, title, salary, department_id) values (3, 'Manager', 200000, 2);
-INSERT INTO departments (id, department_name) values (2, 'Executive');
+INSERT INTO departments (department_name) values ('Executive');
 
 SELECT * FROM employees;
 SELECT * FROM roles;

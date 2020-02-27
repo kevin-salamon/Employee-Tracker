@@ -69,27 +69,15 @@ function addInfo() {
       .then(function(answer) {
         switch (answer.action) {
           case "Add a Department":
-            inquirer.prompt([
+            inquirer.prompt(
                 {
                     name: "name",
                     message: "Please input the name of the new department:",
                     type: "input",
-                },
-                {
-                    name: "id",
-                    message: "Enter the ID of the new department:",
-                    type: "input",
-                    validate: function(value) {
-                        if (isNaN(value) === false) {
-                          return true;
-                        }
-                        return false;
-                      }
                 }
-              ]).then(function(answer) {
-                var query = "INSERT INTO departments (id, department_name) values (?, ?)";
-                connection.query(query, [answer.id, answer.name], function(err, res) {
-                    console.log(query);
+              ).then(function(answer) {
+                var query = "INSERT INTO departments (department_name) values (?)";
+                connection.query(query, [answer.name], function(err, res) {
                     console.log("New department added!");
                     runSearch();
                 });
