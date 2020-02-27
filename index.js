@@ -32,6 +32,7 @@ function runSearch() {
         "Update Employee Roles or Manager",
         "Delete an Employee, Department, or Role",
         "View Department Budget",
+        "View Employees by Manager",
         "Exit"
         ]
     })
@@ -55,6 +56,10 @@ function runSearch() {
 
         case "View Department Budget":
         viewBudget();
+        break;
+
+        case "View Employees by Manager":
+        viewByManager();
         break;
 
         case "Exit":
@@ -391,9 +396,27 @@ function viewBudget() {
       message: "Please list the department ID for which you would like to see the budget:",
   }).then(function(answer) {
     var query = "SELECT SUM(salary) FROM roles WHERE department_id = ?";
-    connection.query(query, [answer.departmentID], function(err, res) {
+    connection.query(query, answer.departmentID, function(err, res) {
         console.log("Please see the below total budget for the selected department. All amounts are in US dollars.")
         console.log(res[0]);
+        console.log("----------------");
+        runSearch();
+    });
+  });
+}
+
+function viewByManager() {
+  inquirer
+    .prompt({
+        name: "managerID",
+        type: "input",
+        message: "Input the manager ID for which whose employees you would like to view:",
+    })
+    .then(function(answer) {
+      var query = "SELECT employees.id, employees.first_name, employees.last_name, employees.manager_id ";
+      query+= "FROM employees WHERE manager_id = ?";
+      connection.query(query, answer.managerID, function(err, res) {
+        console.table(res);
         console.log("----------------");
         runSearch();
     });
