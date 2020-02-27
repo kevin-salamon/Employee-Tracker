@@ -2,7 +2,7 @@
 
 ## Project Description 
 
-An application using Node.js and SQL/mySQL to track and manage a company database containing all information about employees, company roles, and departments.
+An application using Node.js and SQL/mySQL to track and manage a company database containing all information about employees, company roles, and departments. 
 
 ## Table of Contents 
 
@@ -23,6 +23,7 @@ An application using Node.js and SQL/mySQL to track and manage a company databas
 
 ## Usage 
 
+> -- IMPORTANT: IF RUNNING INDEX DIRECTLY BEFORE LOGGING INTO THE MYSQL CLI, BE SURE TO ENTER YOUR PASSWORD INTO THE EMPTY QUOTES LISTED FOR 'PASSWORD' ON LINE 14 OF INDEX.JS --
 > This program runs through the CLI with node.js, and allows the constructions of a mySQL database through the given command prompts. To start the program, run index.js as the server within node (typically inputting 'node index.js' in your CLI of choice while within the correct directory). Users may then choose from among the following choices to add, edit, remove, and view data within the database:
 1. "Add a Department, Role, or Employee": Will additionally prompt the user to specify which area (department, role, employee) they would like to add to. Answer the questions in the following prompts to add the new data to the database.
 2. "View Departments, Roles, or Employees": User can then specify further as to which area they would like to view, after which the CLI will return a table containing all data about that area from the database.
