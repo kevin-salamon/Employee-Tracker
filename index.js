@@ -31,6 +31,7 @@ function runSearch() {
         "View Departments, Roles, or Employees",
         "Update Employee Roles or Manager",
         "Delete an Employee, Department, or Role",
+        "View Department Budget",
         "Exit"
         ]
     })
@@ -50,6 +51,10 @@ function runSearch() {
 
         case "Delete an Employee, Department, or Role":
         deleteInfo()
+        break;
+
+        case "View Department Budget":
+        viewBudget();
         break;
 
         case "Exit":
@@ -206,6 +211,7 @@ function viewTables() {
             query+= "ORDER BY employees.id";
             connection.query(query, function(err, res) {
                 console.table(res);
+                console.log("----------------");
                 runSearch();
             });
         break;
@@ -216,6 +222,7 @@ function viewTables() {
           query+= "ORDER BY departments.id";
           connection.query(query, function(err, res) {
               console.table(res);
+              console.log("----------------");
               runSearch();
           });
         break;
@@ -228,6 +235,7 @@ function viewTables() {
           console.log(query);
           connection.query(query, function(err, res) {
               console.table(res);
+              console.log("----------------");
               runSearch();
           });
         break;
@@ -267,6 +275,7 @@ function updateInfo() {
             connection.query(query, [role, employee], function(err, res) {
                 console.table(res.message);
                 console.log("Role Updated!");
+                console.log("----------------");
                 runSearch();
             });
         });
@@ -292,6 +301,7 @@ function updateInfo() {
             connection.query(query, [manager, employee], function(err, res) {
                 console.table(res.message);
                 console.log("Manager Updated!");
+                console.log("----------------");
                 runSearch();
             });
         });
@@ -326,6 +336,7 @@ function deleteInfo() {
             connection.query(query, [answer.employeeID], function(err, res) {
                 console.table(res.message);
                 console.log("Employee Deleted!");
+                console.log("----------------");
                 runSearch();
             });
         });
@@ -344,6 +355,7 @@ function deleteInfo() {
             connection.query(query, [answer.roleID], function(err, res) {
                 console.table(res.message);
                 console.log("Role Deleted!");
+                console.log("----------------");
                 runSearch();
             });
         });
@@ -361,11 +373,29 @@ function deleteInfo() {
           var query = "DELETE FROM departments WHERE id = ?";
             connection.query(query, [answer.departmentID], function(err, res) {
                 console.table(res.message);
-                console.log("Deparment Deleted!");
+                console.log("Department Deleted!");
+                console.log("----------------");
                 runSearch();
             });
         });
         break;
     }
+  });
+}
+
+function viewBudget() {
+  inquirer
+  .prompt({
+      name: "departmentID",
+      type: "input",
+      message: "Please list the department ID for which you would like to see the budget:",
+  }).then(function(answer) {
+    var query = "SELECT SUM(salary) FROM roles WHERE department_id = ?";
+    connection.query(query, [answer.departmentID], function(err, res) {
+        console.log("Please see the below total budget for the selected department. All amounts are in US dollars.")
+        console.log(res[0]);
+        console.log("----------------");
+        runSearch();
+    });
   });
 }
