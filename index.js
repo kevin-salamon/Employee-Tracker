@@ -69,7 +69,7 @@ function addInfo() {
       .then(function(answer) {
         switch (answer.action) {
           case "Add a Department":
-            inquirer.prompt(
+            inquirer.prompt([
                 {
                     name: "name",
                     message: "Please input the name of the new department:",
@@ -86,14 +86,15 @@ function addInfo() {
                         return false;
                       }
                 }
-            ).then(function(answer) {
+              ]).then(function(answer) {
                 var query = "INSERT INTO departments (id, department_name) values (?, ?)";
                 connection.query(query, [answer.id, answer.name], function(err, res) {
+                    console.log(query);
                     console.log("New department added!");
                     runSearch();
-                    break;
                 });
             });
+            break;
   
           case "Add a Role":
             inquirer.prompt([
@@ -140,9 +141,9 @@ function addInfo() {
                 connection.query(query, [answer.role_id, answer.title, answer.salary, answer.department_id], function(err, res) {
                     console.log("New role added!");
                     runSearch();
-                    break;
                 });
             });
+            break;
   
           case "Add an Employee":
             inquirer.prompt([
@@ -183,9 +184,9 @@ function addInfo() {
                 connection.query(query, [answer.first_name, answer.last_name, answer.role_id, answer.manager_id], function(err, res) {
                     console.log("New employee added!");
                     runSearch();
-                    break;
                 });
             });
+            break;
         }
       });
 }
