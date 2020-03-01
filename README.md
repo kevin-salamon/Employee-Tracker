@@ -6,15 +6,15 @@ An application using Node.js and SQL/mySQL to track and manage a company databas
 
 ## Table of Contents 
 
-1. Installations & Dependencies 
+1. [Installations & Dependencies](##Installations-And-Dependencies)
 
-2. Usage 
+2. [Usage](##Usage) 
 
-3. Additional Contributors 
+3. [Additional Contributors](##Additional-Contributors)
 
-4. Licensing 
+4. [Licensing](##License) 
 
-5. Testing
+5. [Testing](##Testing)
 
 ## Installations and Dependencies 
 
